@@ -37,7 +37,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   if (!authorized) {
-    return <div className="min-h-screen flex items-center justify-center">Loading..</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-500 font-medium">
+        Loading dashboard...
+      </div>
+    );
   }
 
   const navItems = [
@@ -47,45 +51,58 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex font-sans text-gray-900">
-      <aside className="w-64 bg-slate-900 text-white flex flex-col shadow-2xl transition-all duration-300">
-        <div className="p-6 border-b border-slate-700 flex items-center justify-center">
-          <h1 className="text-2xl font-extrabold tracking-wider bg-gradient-to-r from-blue-400 to-indigo-400 text-transparent bg-clip-text">
-            DASHBOARD
-          </h1>
+    <div className="flex h-screen bg-gray-50 font-sans text-gray-900 overflow-hidden">
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col z-20">
+        
+        <div className="h-16 flex items-center px-6 border-b border-gray-100">
+          <div className="flex items-center gap-2 text-gray-700">
+            <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
+            </svg>
+            <span className="text-lg font-semibold tracking-tight">
+              Dashboard
+            </span>
+          </div>
         </div>
         
-        <nav className="flex-1 p-4 space-y-3 mt-4">
+        <nav className="flex-1 py-6 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
+                className={`relative group flex items-center px-6 py-3 text-sm font-medium transition-colors duration-200 ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50 translate-x-1'
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white hover:translate-x-1'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' 
                 }`}
               >
+                {isActive && (
+                    <span className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r" />
+                )}
+                
                 {item.name}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-700">
+        <div className="p-4 border-t border-gray-100">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-red-200 bg-red-900/20 hover:bg-red-600 hover:text-white transition-all duration-300 border border-red-900/30 hover:border-transparent"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
           >
-            Logout
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+            </svg>
+            Sign out
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 p-10 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+      <main className="flex-1 overflow-y-auto bg-gray-50">
+        <div className="max-w-7xl mx-auto p-8">
            {children}
         </div>
       </main>
