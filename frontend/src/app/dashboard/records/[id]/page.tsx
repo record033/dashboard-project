@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
-import { RecordItem } from '@/services/records.service';
-import { $api } from '@/lib/axios';
+import { RecordItem, RecordsService } from '@/services/records.service';
+
 import { useRouter } from 'next/navigation';
 
-export default function RecordDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+export default function RecordDetailsPage({ params }: { params: Promise<{ id: number }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
 
@@ -14,15 +14,19 @@ export default function RecordDetailsPage({ params }: { params: Promise<{ id: st
   const router = useRouter();
 
   useEffect(() => {
-    $api.get<RecordItem>(`/records/${id}`)
-      .then((res) => setRecord(res.data))
-      .catch((err) => {
-          console.error(err);
-          alert('Record not found or access denied');
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
-
+     const loadOneRecord = async () => {
+       try {
+         const data = await RecordsService.getById(id);
+         setRecord(data);
+       } catch (e) {
+         console.error(e);
+       } finally {
+         setLoading(false);
+       }
+     };
+     loadOneRecord();
+   }, []);
+ 
   if (loading) return <div className="p-10 text-center text-gray-500">Loading...</div>;
   if (!record) return <div className="p-10 text-center text-red-500">Error</div>;
 

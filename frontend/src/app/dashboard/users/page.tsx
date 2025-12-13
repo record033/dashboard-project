@@ -9,10 +9,7 @@ export default function UsersPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    loadUsers();
-  }, []);
-
-  const loadUsers = async () => {
+    const loadUsers = async () => {
     try {
       const data = await UsersService.getAll();
       setUsers(data);
@@ -26,12 +23,14 @@ export default function UsersPage() {
       setLoading(false);
     }
   };
+    loadUsers();
+  }, []);
 
   const handleDelete = async (id: number) => {
     if (!confirm('delete user?')) return;
     try {
       await UsersService.delete(id);
-      setUsers(users.filter((u) => u.id !== id));
+      setUsers(prev => prev.filter((u) => u.id !== id));
     } catch (e) {
       alert('error deleting user');
     }
@@ -43,7 +42,7 @@ export default function UsersPage() {
 
     try {
       await UsersService.update(user.id, { role: newRole });
-      setUsers(users.map(u => u.id === user.id ? { ...u, role: newRole } : u));
+      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, role: newRole } : u));
     } catch (e) {
       alert('error updating user role');
     }

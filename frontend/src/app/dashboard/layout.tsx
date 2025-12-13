@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { AuthService } from '@/services/auth.service';
 
-export default function DashboardLayout({
-  children,
-}: {
+type DashboardLayoutProps = {
   children: React.ReactNode;
-}) {
+};
+
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  children,
+}) => {
   const router = useRouter();
   const pathname = usePathname();
   const [authorized, setAuthorized] = useState(false);
@@ -90,3 +92,5 @@ export default function DashboardLayout({
     </div>
   );
 }
+
+export default DashboardLayout;

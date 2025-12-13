@@ -59,7 +59,6 @@ export class AuthService {
         userId: userId,
       },
     });
-    return true;
   }
 
 // Refresh

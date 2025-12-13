@@ -1,4 +1,5 @@
 import { $api } from '@/lib/axios';
+import { get } from 'http';
 
 export interface RecordItem {
   id: number;
@@ -16,6 +17,11 @@ export interface RecordItem {
 export const RecordsService = {
   async getAll() {
     const { data } = await $api.get<RecordItem[]>('/records');
+    return data;
+  },
+
+  async getById(id: number) {
+    const { data } = await $api.get<RecordItem>(`/records/${id}`);
     return data;
   },
 

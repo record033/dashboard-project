@@ -2,15 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import { $api } from '@/lib/axios';
+import { AuthUser, AuthService } from '@/services/auth.service';
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
 
-  useEffect(() => {
-    $api.get('/auth/me')
-      .then((res) => setUser(res.data))
-      .catch((err) => console.error('err loading profile', err));
-  }, []);
+useEffect(() => {
+     const loadMe = async () => {
+       try {
+         const data = await AuthService.me();
+         setUser(data);
+       } catch (e) {
+         console.error(e);
+       }
+     };
+     loadMe();
+   }, []);
 
   return (
     <div>

@@ -12,19 +12,19 @@ export default function RecordsPage() {
   const [content, setContent] = useState('');
 
   useEffect(() => {
+    const loadRecords = async () => {
+      try {
+        const data = await RecordsService.getAll();
+        setRecords(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    };
     loadRecords();
   }, []);
 
-  const loadRecords = async () => {
-    try {
-      const data = await RecordsService.getAll();
-      setRecords(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
