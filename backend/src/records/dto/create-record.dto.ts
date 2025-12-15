@@ -1,4 +1,4 @@
 export class CreateRecordDto {
-  title: string;
-  content: string;
+    title: string;
+    content: string;
 }

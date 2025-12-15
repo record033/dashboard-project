@@ -7,8 +7,8 @@ import { RecordsModule } from './records/records.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, RecordsModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [AuthModule, PrismaModule, RecordsModule, UsersModule],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}

@@ -1,0 +1,10 @@
+# .prettierignore
+node_modules
+dist
+build
+.next
+coverage
+.git
+*.log
+package-lock.json
+yarn.lock
